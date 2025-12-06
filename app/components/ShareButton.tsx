@@ -21,15 +21,39 @@ export function ShareButton({
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState<"success" | "info">("success");
 
+  // Generate dynamic OG image URL with user stats
+  const getOgImageUrl = () => {
+    if (!stats) return null;
+    
+    const params = new URLSearchParams({
+      username: stats.user.username,
+      displayName: stats.user.display_name || stats.user.username,
+      pfp: stats.user.pfp_url || "",
+      casts: stats.totalCasts.toString(),
+      likes: stats.totalLikes.toString(),
+      recasts: stats.totalRecasts.toString(),
+      replies: stats.totalReplies.toString(),
+      personality: stats.personalityType,
+      topChannel: stats.topChannel || "",
+    });
+    
+    return `https://wrapcast-tau.vercel.app/api/og?${params.toString()}`;
+  };
+
   const handleShare = async () => {
-    // Add app link to share text
     const shareText = `${text}\n\nCheck yours: ${appUrl}`;
+    const ogImageUrl = getOgImageUrl();
     
     try {
-      // Simple approach: open Warpcast compose with just text
-      const composeUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}`;
+      // Build compose URL with text and optional image embed
+      let composeUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}`;
       
-      // Open in new window/tab
+      // Add embed if we have dynamic OG image
+      if (ogImageUrl) {
+        composeUrl += `&embeds[]=${encodeURIComponent(ogImageUrl)}`;
+      }
+      
+      // Open Warpcast compose
       window.open(composeUrl, "_blank");
     } catch {
       // Fallback: copy to clipboard
