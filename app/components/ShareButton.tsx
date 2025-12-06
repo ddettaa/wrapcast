@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { sdk } from "@farcaster/miniapp-sdk";
 import { Alert } from "@/components/retroui/Alert";
 import { Share2, Check, Copy } from "lucide-react";
 import { WrappedStats } from "../lib/neynar";
@@ -22,39 +21,20 @@ export function ShareButton({
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState<"success" | "info">("success");
 
-  // Generate dynamic OG image URL with user stats
-  const getOgImageUrl = () => {
-    if (!stats) return "https://wrapcast-tau.vercel.app/Splash.png";
-    
-    const params = new URLSearchParams({
-      username: stats.user.username,
-      displayName: stats.user.display_name || stats.user.username,
-      pfp: stats.user.pfp_url || "",
-      casts: stats.totalCasts.toString(),
-      likes: stats.totalLikes.toString(),
-      recasts: stats.totalRecasts.toString(),
-      replies: stats.totalReplies.toString(),
-      personality: stats.personalityType,
-      topChannel: stats.topChannel || "",
-    });
-    
-    return `https://wrapcast-tau.vercel.app/api/og?${params.toString()}`;
-  };
-
   const handleShare = async () => {
-    const shareText = text;
-    const ogImageUrl = getOgImageUrl();
+    // Add app link to share text
+    const shareText = `${text}\n\nCheck yours: ${appUrl}`;
     
     try {
-      // Embed the dynamic OG image URL
-      const composeUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds=${encodeURIComponent(ogImageUrl)}`;
+      // Simple approach: open Warpcast compose with just text
+      const composeUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}`;
       
-      await sdk.actions.openUrl(composeUrl);
+      // Open in new window/tab
+      window.open(composeUrl, "_blank");
     } catch {
-      // Fallback: try clipboard
+      // Fallback: copy to clipboard
       try {
-        const fullText = `${shareText}\n\nCheck yours: ${appUrl}`;
-        await navigator.clipboard.writeText(fullText);
+        await navigator.clipboard.writeText(shareText);
         setAlertType("success");
         setShowAlert(true);
         setTimeout(() => setShowAlert(false), 3000);
