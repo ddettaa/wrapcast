@@ -3,57 +3,30 @@
 import { useState } from "react";
 import { Alert } from "@/components/retroui/Alert";
 import { Share2, Check, Copy } from "lucide-react";
-import { WrappedStats } from "../lib/neynar";
 
 interface ShareButtonProps {
   text: string;
-  stats?: WrappedStats;
   appUrl?: string;
   onClick?: () => void;
 }
 
 export function ShareButton({ 
   text, 
-  stats,
   appUrl = "https://farcaster.xyz/miniapps/JAMionQNBhEJ/farcaster-wrapped-2025", 
   onClick 
 }: ShareButtonProps) {
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState<"success" | "info">("success");
 
-  // Generate dynamic OG image URL with user stats
-  const getOgImageUrl = () => {
-    if (!stats) return null;
-    
-    const params = new URLSearchParams({
-      username: stats.user.username,
-      displayName: stats.user.display_name || stats.user.username,
-      pfp: stats.user.pfp_url || "",
-      casts: stats.totalCasts.toString(),
-      likes: stats.totalLikes.toString(),
-      recasts: stats.totalRecasts.toString(),
-      replies: stats.totalReplies.toString(),
-      personality: stats.personalityType,
-      topChannel: stats.topChannel || "",
-    });
-    
-    return `https://wrapcast-tau.vercel.app/api/og?${params.toString()}`;
-  };
+  // Static OG image from farcaster.json
+  const ogImageUrl = "https://wrapcast-tau.vercel.app/Splash2.png";
 
   const handleShare = async () => {
     const shareText = `${text}\n\nCheck yours: ${appUrl}`;
-    const ogImageUrl = getOgImageUrl();
     
     try {
-      // Build compose URL with text and optional image embed
-      let composeUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}`;
-      
-      // Add embed if we have dynamic OG image
-      if (ogImageUrl) {
-        composeUrl += `&embeds[]=${encodeURIComponent(ogImageUrl)}`;
-      }
-      
-      // Open Warpcast compose
+      // Open Warpcast compose with text and static OG image
+      const composeUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(ogImageUrl)}`;
       window.open(composeUrl, "_blank");
     } catch {
       // Fallback: copy to clipboard

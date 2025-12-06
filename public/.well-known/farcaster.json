@@ -10,7 +10,11 @@
     "iconUrl": "https://wrapcast-tau.vercel.app/Logo.png",
     "splashImageUrl": "https://wrapcast-tau.vercel.app/Splash.png",
     "splashBackgroundColor": "#8468FA",
-    "homeUrl": "https://wrapcast-tau.vercel.app/"
-    
+    "homeUrl": "https://wrapcast-tau.vercel.app/",
+    "heroImageUrl": "https://wrapcast-tau.vercel.app/Splash.png",
+    "tagline": "Discover your Farcaster highlights from 2025!",
+    "ogTitle": "Farcaster Wrapped 2025",
+    "ogDescription": "Check your Farcaster stats and personality for 2025!",
+    "ogImageUrl": "https://wrapcast-tau.vercel.app/Splash2.png"
   }
 }

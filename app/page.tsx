@@ -342,7 +342,7 @@ ${stats.personalityType}`;
             <SlideTitle>Your Complete Recap</SlideTitle>
             <RecapCard stats={stats} />
             <div style={{ marginTop: "1.5rem", marginBottom: "2rem" }}>
-              <ShareButton text={generateShareText()} stats={stats} />
+              <ShareButton text={generateShareText()} />
             </div>
           </div>
         </WrappedSlide>
