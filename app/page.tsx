@@ -344,7 +344,7 @@ Check your Wrapped!`;
             <SlideTitle>Your Complete Recap</SlideTitle>
             <RecapCard stats={stats} />
             <div style={{ marginTop: "1.5rem", marginBottom: "2rem" }}>
-              <ShareButton text={generateShareText()} />
+              <ShareButton text={generateShareText()} stats={stats} />
             </div>
           </div>
         </WrappedSlide>

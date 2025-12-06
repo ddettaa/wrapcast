@@ -4,23 +4,54 @@ import { useState } from "react";
 import { sdk } from "@farcaster/miniapp-sdk";
 import { Alert } from "@/components/retroui/Alert";
 import { Share2, Check, Copy } from "lucide-react";
+import { WrappedStats } from "../lib/neynar";
 
 interface ShareButtonProps {
   text: string;
+  stats?: WrappedStats;
   appUrl?: string;
   onClick?: () => void;
 }
 
-export function ShareButton({ text, appUrl = "https://farcaster.xyz/miniapps/JAMionQNBhEJ/farcaster-wrapped-2025", onClick }: ShareButtonProps) {
+export function ShareButton({ 
+  text, 
+  stats,
+  appUrl = "https://farcaster.xyz/miniapps/JAMionQNBhEJ/farcaster-wrapped-2025", 
+  onClick 
+}: ShareButtonProps) {
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState<"success" | "info">("success");
 
+  // Generate OG image URL with stats
+  const getOgImageUrl = () => {
+    if (!stats) return "";
+    
+    const params = new URLSearchParams({
+      username: stats.user.username,
+      displayName: stats.user.display_name || stats.user.username,
+      pfp: stats.user.pfp_url || "",
+      casts: stats.totalCasts.toString(),
+      likes: stats.totalLikes.toString(),
+      recasts: stats.totalRecasts.toString(),
+      replies: stats.totalReplies.toString(),
+      personality: stats.personalityType,
+      topChannel: stats.topChannel || "",
+    });
+    
+    return `https://wrapcast-tau.vercel.app/api/og?${params.toString()}`;
+  };
+
   const handleShare = async () => {
     const shareText = `${text}\n\nCheck yours: ${appUrl}`;
+    const ogImageUrl = getOgImageUrl();
     
     try {
-      // Use Farcaster SDK to open cast composer
-      await sdk.actions.openUrl(`https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}`);
+      // Use Farcaster SDK to open cast composer with embed
+      const composeUrl = ogImageUrl 
+        ? `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(ogImageUrl)}`
+        : `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}`;
+      
+      await sdk.actions.openUrl(composeUrl);
     } catch {
       // Fallback: try clipboard
       try {
