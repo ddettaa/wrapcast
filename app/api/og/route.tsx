@@ -28,7 +28,6 @@ export async function GET(request: NextRequest) {
           justifyContent: "center",
           background: "linear-gradient(135deg, #8468FA 0%, #6B4CE6 100%)",
           padding: "40px",
-          fontFamily: "sans-serif",
         }}
       >
         {/* Title */}
@@ -36,11 +35,10 @@ export async function GET(request: NextRequest) {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "12px",
             marginBottom: "24px",
           }}
         >
-          <span style={{ fontSize: "32px" }}>🎁</span>
+          <span style={{ fontSize: "32px", marginRight: "12px" }}>🎁</span>
           <span
             style={{
               fontSize: "28px",
@@ -71,21 +69,37 @@ export async function GET(request: NextRequest) {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "16px",
               marginBottom: "24px",
               paddingBottom: "20px",
               borderBottom: "4px solid #000000",
             }}
           >
-            {pfp && (
+            {pfp ? (
               <img
                 src={pfp}
                 width={70}
                 height={70}
                 style={{
                   border: "3px solid #000000",
+                  marginRight: "16px",
                 }}
               />
+            ) : (
+              <div
+                style={{
+                  width: "70px",
+                  height: "70px",
+                  background: "#FFD93D",
+                  border: "3px solid #000000",
+                  marginRight: "16px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "32px",
+                }}
+              >
+                👤
+              </div>
             )}
             <div style={{ display: "flex", flexDirection: "column" }}>
               <span
@@ -97,7 +111,7 @@ export async function GET(request: NextRequest) {
               >
                 {displayName}
               </span>
-              <span style={{ fontSize: "16px", color: "#666" }}>
+              <span style={{ fontSize: "16px", color: "#666666" }}>
                 @{username}
               </span>
             </div>
@@ -112,10 +126,73 @@ export async function GET(request: NextRequest) {
               marginBottom: "20px",
             }}
           >
-            <StatBox label="CASTS" value={casts} bg="#FF6B6B" />
-            <StatBox label="LIKES" value={likes} bg="#FFD93D" />
-            <StatBox label="RECASTS" value={recasts} bg="#4D96FF" />
-            <StatBox label="REPLIES" value={replies} bg="#6BCB77" />
+            {/* Casts */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                background: "#FF6B6B",
+                border: "2px solid #000000",
+                boxShadow: "3px 3px 0px #000000",
+                padding: "12px",
+                width: "110px",
+              }}
+            >
+              <span style={{ fontSize: "24px", fontWeight: 900 }}>{casts}</span>
+              <span style={{ fontSize: "10px", fontWeight: 700, textTransform: "uppercase" }}>CASTS</span>
+            </div>
+            
+            {/* Likes */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                background: "#FFD93D",
+                border: "2px solid #000000",
+                boxShadow: "3px 3px 0px #000000",
+                padding: "12px",
+                width: "110px",
+              }}
+            >
+              <span style={{ fontSize: "24px", fontWeight: 900 }}>{likes}</span>
+              <span style={{ fontSize: "10px", fontWeight: 700, textTransform: "uppercase" }}>LIKES</span>
+            </div>
+            
+            {/* Recasts */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                background: "#4D96FF",
+                border: "2px solid #000000",
+                boxShadow: "3px 3px 0px #000000",
+                padding: "12px",
+                width: "110px",
+              }}
+            >
+              <span style={{ fontSize: "24px", fontWeight: 900 }}>{recasts}</span>
+              <span style={{ fontSize: "10px", fontWeight: 700, textTransform: "uppercase" }}>RECASTS</span>
+            </div>
+            
+            {/* Replies */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                background: "#6BCB77",
+                border: "2px solid #000000",
+                boxShadow: "3px 3px 0px #000000",
+                padding: "12px",
+                width: "110px",
+              }}
+            >
+              <span style={{ fontSize: "24px", fontWeight: 900 }}>{replies}</span>
+              <span style={{ fontSize: "10px", fontWeight: 700, textTransform: "uppercase" }}>REPLIES</span>
+            </div>
           </div>
 
           {/* Personality */}
@@ -168,12 +245,12 @@ export async function GET(request: NextRequest) {
         <div
           style={{
             marginTop: "24px",
-            fontSize: "16px",
+            fontSize: "14px",
             color: "#ffffff",
             fontWeight: 600,
           }}
         >
-          farcaster.xyz/miniapps/JAMionQNBhEJ/farcaster-wrapped-2025
+          Check yours at farcaster.xyz/miniapps
         </div>
       </div>
     ),
@@ -181,27 +258,5 @@ export async function GET(request: NextRequest) {
       width: 600,
       height: 600,
     }
-  );
-}
-
-function StatBox({ label, value, bg }: { label: string; value: string; bg: string }) {
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        background: bg,
-        border: "2px solid #000000",
-        boxShadow: "3px 3px 0px #000000",
-        padding: "12px",
-        width: "110px",
-      }}
-    >
-      <span style={{ fontSize: "24px", fontWeight: 900 }}>{value}</span>
-      <span style={{ fontSize: "10px", fontWeight: 700, textTransform: "uppercase" }}>
-        {label}
-      </span>
-    </div>
   );
 }

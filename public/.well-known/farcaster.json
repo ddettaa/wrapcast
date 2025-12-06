@@ -3,14 +3,18 @@
     "header": "eyJmaWQiOjExMTU2NDYsInR5cGUiOiJhdXRoIiwia2V5IjoiMHhhOWIyNzEyNzIxNjE0NDE1OUQ5NzQ3QzQzODU5OEU4NWE5ZDI2NDgyIn0",
     "payload": "eyJkb21haW4iOiJ3cmFwY2FzdC10YXUudmVyY2VsLmFwcCJ9",
     "signature": "5hriyhrcSK1jS0pGRwzmyJrpSrIE9qA8Dzr2eBGZ+X58blV/uIV9Ztio6UhqNyHWSxww4xw2gu30u5telz0hfxw="
-  }
-,
+  },
   "frame": {
     "version": "1",
     "name": "Farcaster Wrapped 2025",
     "iconUrl": "https://wrapcast-tau.vercel.app/Logo.png",
     "splashImageUrl": "https://wrapcast-tau.vercel.app/Splash.png",
     "splashBackgroundColor": "#8468FA",
-    "homeUrl": "https://wrapcast-tau.vercel.app/"
+    "homeUrl": "https://wrapcast-tau.vercel.app/",
+    "heroImageUrl": "https://wrapcast-tau.vercel.app/Splash.png",
+    "tagline": "Discover your Farcaster highlights from 2025!",
+    "ogTitle": "Farcaster Wrapped 2025",
+    "ogDescription": "Check your Farcaster stats and personality for 2025!",
+    "ogImageUrl": "https://wrapcast-tau.vercel.app/Splash.png"
   }
 }

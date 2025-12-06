@@ -22,9 +22,9 @@ export function ShareButton({
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState<"success" | "info">("success");
 
-  // Generate OG image URL with stats
+  // Generate dynamic OG image URL with user stats
   const getOgImageUrl = () => {
-    if (!stats) return "";
+    if (!stats) return "https://wrapcast-tau.vercel.app/Splash.png";
     
     const params = new URLSearchParams({
       username: stats.user.username,
@@ -42,20 +42,19 @@ export function ShareButton({
   };
 
   const handleShare = async () => {
-    const shareText = `${text}\n\nCheck yours: ${appUrl}`;
+    const shareText = text;
     const ogImageUrl = getOgImageUrl();
     
     try {
-      // Use Farcaster SDK to open cast composer with embed
-      const composeUrl = ogImageUrl 
-        ? `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(ogImageUrl)}`
-        : `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}`;
+      // Embed the dynamic OG image URL
+      const composeUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds=${encodeURIComponent(ogImageUrl)}`;
       
       await sdk.actions.openUrl(composeUrl);
     } catch {
       // Fallback: try clipboard
       try {
-        await navigator.clipboard.writeText(shareText);
+        const fullText = `${shareText}\n\nCheck yours: ${appUrl}`;
+        await navigator.clipboard.writeText(fullText);
         setAlertType("success");
         setShowAlert(true);
         setTimeout(() => setShowAlert(false), 3000);
