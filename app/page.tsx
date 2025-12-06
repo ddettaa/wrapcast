@@ -66,12 +66,12 @@ export default function Home() {
     initSdk();
   }, [fetchWrapped]);
 
-  const { playSound } = useSound();
+  const { startMusic } = useSound();
 
   const handleStart = () => {
     const targetFid = fid || parseInt(manualFid);
     if (targetFid) {
-      playSound(); // Start background music
+      startMusic(); // Start background music after user interaction
       fetchWrapped(targetFid);
     }
   };

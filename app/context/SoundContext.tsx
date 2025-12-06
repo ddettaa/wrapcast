@@ -1,17 +1,19 @@
 "use client";
 
-import { createContext, useContext, useState, useRef, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useRef, useEffect, ReactNode, useCallback } from "react";
 
 interface SoundContextType {
   isMuted: boolean;
+  isPlaying: boolean;
   toggleMute: () => void;
-  playSound: () => void;
+  startMusic: () => void;
 }
 
 const SoundContext = createContext<SoundContextType | null>(null);
 
 export function SoundProvider({ children }: { children: ReactNode }) {
   const [isMuted, setIsMuted] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -28,25 +30,32 @@ export function SoundProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const toggleMute = () => {
+  const startMusic = useCallback(() => {
+    if (audioRef.current && !isPlaying && !isMuted) {
+      audioRef.current.play()
+        .then(() => setIsPlaying(true))
+        .catch(() => {});
+    }
+  }, [isPlaying, isMuted]);
+
+  const toggleMute = useCallback(() => {
     if (audioRef.current) {
       if (isMuted) {
-        audioRef.current.play().catch(() => {});
+        // Unmute - start playing
+        audioRef.current.play()
+          .then(() => setIsPlaying(true))
+          .catch(() => {});
       } else {
+        // Mute - pause
         audioRef.current.pause();
+        setIsPlaying(false);
       }
     }
     setIsMuted(!isMuted);
-  };
-
-  const playSound = () => {
-    if (audioRef.current && !isMuted) {
-      audioRef.current.play().catch(() => {});
-    }
-  };
+  }, [isMuted]);
 
   return (
-    <SoundContext.Provider value={{ isMuted, toggleMute, playSound }}>
+    <SoundContext.Provider value={{ isMuted, isPlaying, toggleMute, startMusic }}>
       {children}
     </SoundContext.Provider>
   );
