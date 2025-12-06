@@ -83,9 +83,7 @@ export default function Home() {
 ${stats.totalCasts} casts
 ${stats.totalLikes} likes received
 ${stats.totalRecasts} recasts
-${stats.personalityType}
-
-Check your Wrapped!`;
+${stats.personalityType}`;
   };
 
   // Loading state
