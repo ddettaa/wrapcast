@@ -11,7 +11,7 @@ interface ShareButtonProps {
   onClick?: () => void;
 }
 
-export function ShareButton({ text, appUrl = "https://wrapcast-tau.vercel.app", onClick }: ShareButtonProps) {
+export function ShareButton({ text, appUrl = "https://farcaster.xyz/miniapps/JAMionQNBhEJ/farcaster-wrapped-2025", onClick }: ShareButtonProps) {
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState<"success" | "info">("success");
 
