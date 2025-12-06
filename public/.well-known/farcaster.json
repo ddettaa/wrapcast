@@ -1,0 +1,15 @@
+{
+  "accountAssociation": {
+    "header": "YOUR_HEADER_HERE",
+    "payload": "YOUR_PAYLOAD_HERE", 
+    "signature": "YOUR_SIGNATURE_HERE"
+  },
+  "frame": {
+    "version": "1",
+    "name": "Farcaster Wrapped 2025",
+    "iconUrl": "https://wrapcast-tau.vercel.app/icon.png",
+    "splashImageUrl": "https://wrapcast-tau.vercel.app/splash.png",
+    "splashBackgroundColor": "#FFD93D",
+    "homeUrl": "https://wrapcast-tau.vercel.app/"
+  }
+}
