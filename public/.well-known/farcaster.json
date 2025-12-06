@@ -8,9 +8,9 @@
   "frame": {
     "version": "1",
     "name": "Farcaster Wrapped 2025",
-    "iconUrl": "https://wrapcast-tau.vercel.app/Icon.png",
+    "iconUrl": "https://wrapcast-tau.vercel.app/Logo.png",
     "splashImageUrl": "https://wrapcast-tau.vercel.app/Splash.png",
-    "splashBackgroundColor": "#FFD93D",
+    "splashBackgroundColor": "#8468FA",
     "homeUrl": "https://wrapcast-tau.vercel.app/"
   }
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { sdk } from "@farcaster/miniapp-sdk";
 import { Alert } from "@/components/retroui/Alert";
 import { Share2, Check, Copy } from "lucide-react";
 
@@ -10,7 +11,7 @@ interface ShareButtonProps {
   onClick?: () => void;
 }
 
-export function ShareButton({ text, appUrl = "https://your-app-url.vercel.app", onClick }: ShareButtonProps) {
+export function ShareButton({ text, appUrl = "https://wrapcast-tau.vercel.app", onClick }: ShareButtonProps) {
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState<"success" | "info">("success");
 
@@ -18,19 +19,20 @@ export function ShareButton({ text, appUrl = "https://your-app-url.vercel.app", 
     const shareText = `${text}\n\nCheck yours: ${appUrl}`;
     
     try {
-      if (typeof window !== "undefined" && (window as unknown as { farcaster?: { composeCast?: (opts: { text: string }) => void } }).farcaster?.composeCast) {
-        (window as unknown as { farcaster: { composeCast: (opts: { text: string }) => void } }).farcaster.composeCast({ text: shareText });
-      } else {
+      // Use Farcaster SDK to open cast composer
+      await sdk.actions.openUrl(`https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}`);
+    } catch {
+      // Fallback: try clipboard
+      try {
         await navigator.clipboard.writeText(shareText);
         setAlertType("success");
         setShowAlert(true);
         setTimeout(() => setShowAlert(false), 3000);
+      } catch {
+        setAlertType("info");
+        setShowAlert(true);
+        setTimeout(() => setShowAlert(false), 3000);
       }
-    } catch {
-      await navigator.clipboard.writeText(shareText);
-      setAlertType("info");
-      setShowAlert(true);
-      setTimeout(() => setShowAlert(false), 3000);
     }
     
     onClick?.();
