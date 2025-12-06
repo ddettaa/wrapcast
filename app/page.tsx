@@ -52,19 +52,17 @@ export default function Home() {
         const context = await sdk.context;
         
         if (context?.user?.fid) {
-          const userFid = context.user.fid;
-          setFid(userFid);
-          fetchWrapped(userFid);
-        } else {
-          setState("intro");
+          setFid(context.user.fid);
         }
+        // Always show intro first, don't auto-fetch
+        setState("intro");
       } catch {
         setState("intro");
       }
     };
 
     initSdk();
-  }, [fetchWrapped]);
+  }, []);
 
   const { startMusic } = useSound();
 
